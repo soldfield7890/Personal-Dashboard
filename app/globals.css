@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global tweaks */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #000;
+  color: #f9fafb;
+}
+
+/* Optional: smooth font rendering */
+* {
+  box-sizing: border-box;
+}
