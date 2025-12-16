@@ -1,25 +1,7 @@
+cat > "app/(dashboard)/today/page.tsx" << 'EOF'
 "use client";
 
-import React from "react";
-
-function Card({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-neutral-800/60 bg-neutral-950/70 p-4 shadow-md backdrop-blur">
-      <header className="mb-2 flex items-center justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-300">
-          {title}
-        </h2>
-      </header>
-      <div className="text-sm text-neutral-100">{children}</div>
-    </section>
-  );
-}
+import { Card } from "@/app/components/Card";
 
 export default function TodayPage() {
   const today = new Date().toLocaleDateString(undefined, {
@@ -30,7 +12,8 @@ export default function TodayPage() {
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4">
-      <section className="grid gap-3 sm:grid-cols-3">
+      {/* Top row */}
+      <section className="grid gap-3 sm:grid-cols-3 items-stretch">
         <Card title="Personal Command Center">
           <div className="text-xs text-neutral-400">Today • {today}</div>
           <div className="mt-1 text-base font-semibold text-neutral-100">
@@ -67,7 +50,8 @@ export default function TodayPage() {
         </Card>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-3">
+      {/* Main 3-column layout */}
+      <section className="grid gap-4 lg:grid-cols-3 items-stretch">
         <div className="flex flex-col gap-4">
           <Card title="Calendar — Today & Tomorrow">
             <p className="mb-1 text-xs text-neutral-400">
@@ -141,13 +125,15 @@ export default function TodayPage() {
             </ul>
           </Card>
 
-          <Card title="AI Command Bar">
+          <Card title="AI Command Bar" className="flex flex-col">
             <p className="mb-2 text-xs text-neutral-400">
               Phase 1: UI only. Phase 2: calls your OpenAI assistant route.
             </p>
+
+            {/* Polished: textarea fills remaining space + doesn’t feel cramped */}
             <textarea
-              rows={3}
-              className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-3 py-2 text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              rows={6}
+              className="mt-auto w-full flex-1 min-h-[120px] resize-none rounded-xl border border-neutral-700 bg-neutral-900 px-3 py-2 text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               placeholder={`Ask StephenOS:\n- "Summarize my day tomorrow."\n- "What are my top 3 priorities today?"\n- "How are my AI/semis positioned right now?"`}
             />
           </Card>
@@ -156,3 +142,4 @@ export default function TodayPage() {
     </div>
   );
 }
+EOF
