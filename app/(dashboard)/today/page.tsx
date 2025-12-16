@@ -77,6 +77,58 @@ export default function TodayPage() {
           </ul>
         </Card>
       </section>
+      {/* ──────────────── Third Row ──────────────── */}
+      <section className="grid gap-4 lg:grid-cols-3">
+        <Card title="Tasks / Projects">
+          <p className="mb-2 text-xs text-neutral-400">
+            Personal · Home · Garden / CGGC
+          </p>
+          <ul className="list-disc pl-4 text-sm text-neutral-300 space-y-1">
+            <li>Personal — finalize performance review, email Bruno</li>
+            <li>Home — Sol-Ark design / budget outline</li>
+            <li>Garden — CGGC starter package / bed layouts</li>
+          </ul>
+        </Card>
+
+        <Card title="Markets — Watchlist Snapshot">
+          <p className="mb-2 text-xs text-neutral-400">
+            Phase 1: sample data · Phase 2: live quotes + scoring
+          </p>
+          <div className="space-y-1 text-sm">
+            <div className="flex justify-between">
+              <span>MSFT</span>
+              <span className="text-emerald-400">+1.4%</span>
+            </div>
+            <div className="flex justify-between">
+              <span>GOOG</span>
+              <span className="text-emerald-400">+0.9%</span>
+            </div>
+            <div className="flex justify-between">
+              <span>RTX</span>
+              <span className="text-red-400">-0.6%</span>
+            </div>
+            <div className="flex justify-between">
+              <span>DUK</span>
+              <span className="text-emerald-400">+0.3%</span>
+            </div>
+          </div>
+        </Card>
+
+        <Card title="AI Command Bar">
+          <p className="mb-2 text-xs text-neutral-400">
+            Phase 1: UI only · Phase 2: OpenAI assistant
+          </p>
+          <textarea
+            rows={4}
+            className="w-full rounded-lg border border-neutral-700 bg-neutral-900 px-3 py-2 text-xs text-neutral-100 placeholder:text-neutral-500"
+            placeholder={`Ask SEO Life OS:
+- "Summarize my day tomorrow"
+- "What are my top 3 priorities?"
+- "How are my AI/semis positioned?"`}
+          />
+        </Card>
+      </section>
+
     </div>
   );
 }
