@@ -12,7 +12,6 @@ export default function TodayPage() {
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4">
-      {/* Top row */}
       <section className="grid gap-3 sm:grid-cols-3 items-stretch">
         <Card title="Personal Command Center">
           <div className="text-xs text-neutral-400">Today • {today}</div>
@@ -35,10 +34,7 @@ export default function TodayPage() {
         </Card>
 
         <Card title="Quick Capture">
-          <form
-            className="flex items-center gap-2"
-            onSubmit={(e) => e.preventDefault()}
-          >
+          <form className="flex items-center gap-2" onSubmit={(e) => e.preventDefault()}>
             <input
               className="h-9 flex-1 rounded-xl border border-neutral-700 bg-neutral-900 px-3 text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               placeholder="Add task or note…"
@@ -53,7 +49,6 @@ export default function TodayPage() {
         </Card>
       </section>
 
-      {/* Main 3-column layout */}
       <section className="grid gap-4 lg:grid-cols-3 items-stretch">
         <div className="flex flex-col gap-4">
           <Card title="Calendar — Today & Tomorrow">
@@ -87,10 +82,7 @@ export default function TodayPage() {
               <li>Weather: 41°F, clear, light NW wind</li>
               <li>Time: Two solid deep work windows this afternoon</li>
               <li>Risks: HST contract pressure, ECC backlog, staffing gaps</li>
-              <li>
-                Opportunities: CGGC planning, AI/semis pullback, hunting window
-                this weekend
-              </li>
+              <li>Opportunities: CGGC planning, AI/semis pullback, hunting window</li>
             </ul>
           </Card>
 
@@ -131,13 +123,13 @@ export default function TodayPage() {
             </ul>
           </Card>
 
-          <Card title="AI Command Bar" className="flex flex-col">
+          <Card title="AI Command Bar">
             <p className="mb-2 text-xs text-neutral-400">
               Phase 1: UI only. Phase 2: calls your OpenAI assistant route.
             </p>
             <textarea
               rows={6}
-              className="mt-auto w-full flex-1 min-h-[120px] resize-none rounded-xl border border-neutral-700 bg-neutral-900 px-3 py-2 text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full resize-none rounded-xl border border-neutral-700 bg-neutral-900 px-3 py-2 text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               placeholder={`Ask StephenOS:\n- "Summarize my day tomorrow."\n- "What are my top 3 priorities today?"\n- "How are my AI/semis positioned right now?"`}
             />
           </Card>
