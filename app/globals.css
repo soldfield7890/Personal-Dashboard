@@ -798,3 +798,44 @@ body {
 .mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
+
+/* --- LifeOS Enhancements (Phase 1) --- */
+.sidebar-toggle{
+  display:none;
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:14px;
+  line-height:1;
+}
+
+@media (max-width: 900px){
+  .sidebar-toggle{ display:inline-flex; align-items:center; justify-content:center; }
+  .sidebar{
+    position:fixed;
+    top:0; left:0;
+    height:100vh;
+    transform:translateX(-105%);
+    transition:transform 200ms ease;
+    z-index:50;
+  }
+  .sidebar[data-open="true"]{
+    transform:translateX(0);
+  }
+  .main{
+    margin-left:0 !important;
+  }
+}
+
+/* tile grow + critical highlight */
+.tile-grow{
+  grid-column: span 1;
+}
+@media (min-width: 1024px){
+  .tile-grow{
+    grid-column: span 2;
+  }
+}
+.tile-critical{
+  box-shadow: 0 0 0 1px rgba(16,185,129,0.35), 0 0 40px rgba(16,185,129,0.08);
+}

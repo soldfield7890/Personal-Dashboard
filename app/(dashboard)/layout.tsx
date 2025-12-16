@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import React, { useState } from "react";
+import { TaskProvider } from "@/app/components/state/TaskStore";
 
 const NAV = [
   { href: "/today", label: "Today" },
@@ -22,23 +24,38 @@ function NavLink({ href, label }: { href: string; label: string }) {
 }
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <div className="brand">SEO Life OS</div>
-        </div>
+    <TaskProvider>
+      <div className="app-shell">
+        <aside className="sidebar" data-open={sidebarOpen ? "true" : "false"}>
+          <div className="sidebar-header">
+            <div className="brand">SEO Life OS</div>
+          </div>
 
-        <nav className="nav">
-          {NAV.map((item) => (
-            <NavLink key={item.href} href={item.href} label={item.label} />
-          ))}
-        </nav>
-      </aside>
+          <nav className="nav" onClick={() => setSidebarOpen(false)}>
+            {NAV.map((item) => (
+              <NavLink key={item.href} href={item.href} label={item.label} />
+            ))}
+          </nav>
+        </aside>
 
-      <main className="main">
-        <div className="content">{children}</div>
-      </main>
-    </div>
+        <main className="main">
+          <div className="topbar">
+            <button
+              className="sidebar-toggle"
+              type="button"
+              aria-label="Toggle sidebar"
+              onClick={() => setSidebarOpen((v) => !v)}
+            >
+              ☰
+            </button>
+          </div>
+
+          <div className="content px-4 py-4">{children}</div>
+        </main>
+      </div>
+    </TaskProvider>
   );
 }
