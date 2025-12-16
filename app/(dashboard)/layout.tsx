@@ -32,7 +32,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
       <main className="main">
         <div className="topbar" />
-        <div className="content">{children}</div>
+        {/* consistent page padding + spacing for all dashboard pages */}
+        <div className="content px-4 py-4">{children}</div>
       </main>
     </div>
   );
