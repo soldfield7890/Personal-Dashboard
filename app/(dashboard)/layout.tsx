@@ -4,9 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
+const NAV = [
+  { href: "/today", label: "Today" },
+  { href: "/finance", label: "Finance" },
+  { href: "/todo", label: "To-Do" },
+];
+
 function NavLink({ href, label }: { href: string; label: string }) {
   const pathname = usePathname();
-  const active = pathname === href;
+  const active = pathname === href || pathname.startsWith(href + "/");
 
   return (
     <Link href={href} className={`nav-item ${active ? "active" : ""}`}>
@@ -24,16 +30,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         </div>
 
         <nav className="nav">
-          <NavLink href="/today" label="Today" />
-          <NavLink href="/finance" label="Finance" />
-          <NavLink href="/todo" label="To-Do" />
+          {NAV.map((item) => (
+            <NavLink key={item.href} href={item.href} label={item.label} />
+          ))}
         </nav>
       </aside>
 
       <main className="main">
-        <div className="topbar" />
-        {/* consistent page padding + spacing for all dashboard pages */}
-        <div className="content px-4 py-4">{children}</div>
+        <div className="content">{children}</div>
       </main>
     </div>
   );
