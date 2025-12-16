@@ -10,46 +10,73 @@ export default function TodayPage() {
   });
 
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
-      <Card title="Personal Command Center">
-        <div className="flex flex-col gap-1 text-sm">
-          <span className="text-neutral-400">Today • {today}</span>
-          <span className="font-semibold">Good afternoon, Stephen</span>
-          <span className="text-neutral-500">
+    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+      {/* ───────────────── Top Row ───────────────── */}
+      <section className="grid gap-4 md:grid-cols-3">
+        <Card title="Personal Command Center">
+          <p className="text-xs text-neutral-400">Today • {today}</p>
+          <p className="mt-1 font-semibold">Good afternoon, Stephen</p>
+          <p className="mt-1 text-sm text-neutral-400">
             3 meetings · 7 tasks · 41°F (sample)
-          </span>
-        </div>
-      </Card>
+          </p>
+        </Card>
 
-      <Card title="Next 3 Events">
-        <div className="text-sm text-neutral-300 leading-relaxed">
-          2:00 PM — HST Call Review
-          <br />
-          3:00 PM — Exec Touchpoint
-          <br />
-          5:30 PM — Family Dinner
-        </div>
-      </Card>
+        <Card title="Next 3 Events">
+          <ul className="space-y-1 text-sm text-neutral-300">
+            <li>2:00 PM — HST Call Review</li>
+            <li>3:00 PM — Exec Touchpoint</li>
+            <li>5:30 PM — Family Dinner</li>
+          </ul>
+        </Card>
 
+        <Card title="Quick Capture">
+          <div className="flex gap-2">
+            <input
+              className="flex-1 rounded-lg border border-neutral-700 bg-neutral-900 px-3 py-2 text-xs text-neutral-100 placeholder:text-neutral-500"
+              placeholder="Add task or note…"
+            />
+            <button className="rounded-lg bg-emerald-500 px-3 text-xs font-semibold text-black">
+              Add
+            </button>
+          </div>
+        </Card>
+      </section>
 
-      <Card title="Quick Capture">
-        <form
-          className="flex items-center gap-2"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <input
-            className="h-9 flex-1 rounded-xl border border-neutral-700 bg-neutral-900 px-3 text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
-            placeholder="Add task or note…"
-          />
-          <button
-            type="submit"
-            className="h-9 rounded-xl bg-emerald-500 px-3 text-xs font-semibold text-black hover:bg-emerald-400"
-          >
-            Add
-          </button>
-        </form>
-      </Card>
+      {/* ──────────────── Second Row ──────────────── */}
+      <section className="grid gap-4 lg:grid-cols-3">
+        <Card title="Calendar — Today & Tomorrow">
+          <p className="mb-2 text-xs text-neutral-400">
+            Phase 1: sample data · Phase 2: Google Calendar
+          </p>
+          <ul className="list-disc pl-4 text-sm text-neutral-300 space-y-1">
+            <li>Today: Exec check-in, HST follow-up, CGGC notes</li>
+            <li>Tomorrow: Deep work block, contract review, family event</li>
+          </ul>
+        </Card>
 
+        <Card title="Daily Briefing">
+          <p className="mb-2 text-xs text-neutral-400">
+            Phase 1: static · Phase 2: AI-generated
+          </p>
+          <ul className="list-disc pl-4 text-sm text-neutral-300 space-y-1">
+            <li>Weather: 41°F, clear, light NW wind</li>
+            <li>Time: Two strong deep-work windows</li>
+            <li>Risks: HST pressure, ECC backlog</li>
+            <li>Opportunities: CGGC planning, market pullback</li>
+          </ul>
+        </Card>
+
+        <Card title="Weather & Situational Awareness">
+          <p className="mb-2 text-xs text-neutral-400">
+            Leominster / Mason NH
+          </p>
+          <ul className="list-disc pl-4 text-sm text-neutral-300 space-y-1">
+            <li>Today: 41°F high, 32°F low, clear</li>
+            <li>Wind: NW 8 mph (HuntOS check)</li>
+            <li>Next 5 days: Mostly clear, cooling</li>
+          </ul>
+        </Card>
+      </section>
     </div>
   );
 }
