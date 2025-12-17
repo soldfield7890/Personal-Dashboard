@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run sanity && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sanity": "node scripts/sanity-check.js",
+    "guard": "sh -c 'git grep -nE \"^\\s*cat\\s+>\\s+|<<\\s*[\\x27\\x22]?EOF[\\x27\\x22]?|\\bEOF;\\b|@soldfield7890\\s+➜\" -- . \":(exclude)_archive\" \":(exclude).next\" \":(exclude)node_modules\" && echo \"\\n❌ TERMINAL PASTE DETECTED — fix the file(s) above\" && exit 1 || echo \"✅ Guard passed\"'"
   },
   "dependencies": {
     "csv-parse": "^6.1.0",
