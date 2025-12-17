@@ -5,6 +5,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { TaskProvider } from "@/app/components/state/TaskStore";
+
 const NAV = [
   { href: "/today", label: "Today" },
   { href: "/finance", label: "Finance" },
@@ -14,7 +16,6 @@ const NAV = [
 function NavItem({ href, label }: { href: string; label: string }) {
   const pathname = usePathname();
   const active = pathname === href || pathname.startsWith(href + "/");
-
   return (
     <Link href={href} className={`nav-item ${active ? "active" : ""}`}>
       {label}
@@ -24,33 +25,33 @@ function NavItem({ href, label }: { href: string; label: string }) {
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <Image
-              src="/oldfield-logo.png.jpg"
-              alt="Oldfield logo"
-              width={26}
-              height={26}
-              style={{ borderRadius: 8 }}
-              priority
-            />
-            <div className="brand">SEO Life OS</div>
+    <TaskProvider>
+      <div className="app-shell">
+        <aside className="sidebar">
+          <div className="sidebar-header">
+            <div className="brand">
+              <div className="brand-logo">
+                <Image
+                  src="/oldfield-logo.png.jpg"
+                  alt="SEO Life OS"
+                  width={28}
+                  height={28}
+                  priority
+                />
+              </div>
+              <div className="brand-title">SEO Life OS</div>
+            </div>
           </div>
-        </div>
 
-        <nav className="nav">
-          {NAV.map((item) => (
-            <NavItem key={item.href} href={item.href} label={item.label} />
-          ))}
-        </nav>
-      </aside>
+          <nav className="sidebar-nav">
+            {NAV.map((item) => (
+              <NavItem key={item.href} href={item.href} label={item.label} />
+            ))}
+          </nav>
+        </aside>
 
-      <main className="main">
-        <div className="topbar" />
-        <div className="content">{children}</div>
-      </main>
-    </div>
+        <main className="content">{children}</main>
+      </div>
+    </TaskProvider>
   );
 }

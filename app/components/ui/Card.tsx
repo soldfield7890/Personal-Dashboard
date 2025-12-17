@@ -1,29 +1,32 @@
 "use client";
 
-import React from "react";
+import type { ReactNode } from "react";
 
 export function Card({
   title,
+  subtitle,
+  right,
   children,
   className = "",
 }: {
-  title: string;
-  children: React.ReactNode;
+  title?: string;
+  subtitle?: string;
+  right?: ReactNode;
+  children?: ReactNode;
   className?: string;
 }) {
   return (
-    <section
-      className={
-        "h-full rounded-2xl border border-neutral-800/60 bg-neutral-950/70 p-4 shadow-md backdrop-blur " +
-        className
-      }
-    >
-      <header className="mb-2 flex items-center justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-300">
-          {title}
-        </h2>
-      </header>
-      <div className="text-sm text-neutral-100">{children}</div>
+    <section className={`card ${className}`}>
+      {(title || subtitle || right) && (
+        <header className="card-header">
+          <div className="card-header-left">
+            {title && <div className="card-title">{title}</div>}
+            {subtitle && <div className="card-subtitle">{subtitle}</div>}
+          </div>
+          {right && <div className="card-header-right">{right}</div>}
+        </header>
+      )}
+      <div className="card-body">{children}</div>
     </section>
   );
 }

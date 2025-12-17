@@ -2,104 +2,103 @@
 
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-export type TaskPriority = "low" | "normal" | "high" | "critical";
+export type TaskStatus = "open" | "done";
+export type TaskPriority = 1 | 2 | 3; // 1=critical, 2=normal, 3=low
 
 export type Task = {
   id: string;
   title: string;
+  status: TaskStatus;
   priority: TaskPriority;
   dueDate?: string; // YYYY-MM-DD
-  domain?: string; // Personal / MART / CGGC / Home / etc.
-  done: boolean;
   createdAt: string; // ISO
 };
 
 type TaskContextValue = {
   tasks: Task[];
-  addTask: (input: { title: string; priority?: TaskPriority; dueDate?: string; domain?: string }) => void;
-  toggleDone: (id: string) => void;
+  addTask: (title: string, priority?: TaskPriority, dueInDays?: number) => void;
+  toggleTask: (id: string) => void;
   removeTask: (id: string) => void;
-  updateTask: (id: string, patch: Partial<Omit<Task, "id" | "createdAt">>) => void;
-  criticalTodayCount: number;
+  clearDone: () => void;
 };
-
-const STORAGE_KEY = "seo-lifeos.tasks.v1";
-
-function todayISO(): string {
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-}
-
-function uid(): string {
-  return Math.random().toString(16).slice(2) + Date.now().toString(16);
-}
 
 const TaskContext = createContext<TaskContextValue | null>(null);
 
+const STORAGE_KEY = "seo-lifeos.tasks.v1";
+
+function yyyyMmDd(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function addDays(base: Date, days: number) {
+  const d = new Date(base);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
 export function TaskProvider({ children }: { children: React.ReactNode }) {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
-  // load
+  // Load once (client only)
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw) as Task[];
-      if (Array.isArray(parsed)) setTasks(parsed);
+      if (raw) setTasks(JSON.parse(raw));
     } catch {
       // ignore
+    } finally {
+      setHydrated(true);
     }
   }, []);
 
-  // persist
+  // Persist (client only)
   useEffect(() => {
+    if (!hydrated) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
     } catch {
       // ignore
     }
-  }, [tasks]);
+  }, [tasks, hydrated]);
 
-  const addTask: TaskContextValue["addTask"] = (input) => {
-    const title = (input.title || "").trim();
-    if (!title) return;
+  const value = useMemo<TaskContextValue>(() => {
+    return {
+      tasks,
+      addTask: (title, priority = 2, dueInDays = 0) => {
+        const trimmed = title.trim();
+        if (!trimmed) return;
 
-    const t: Task = {
-      id: uid(),
-      title,
-      priority: input.priority ?? "normal",
-      dueDate: input.dueDate,
-      domain: input.domain,
-      done: false,
-      createdAt: new Date().toISOString(),
+        const now = new Date();
+        const dueDate = dueInDays > 0 ? yyyyMmDd(addDays(now, dueInDays)) : undefined;
+
+        const t: Task = {
+          id: crypto.randomUUID(),
+          title: trimmed,
+          status: "open",
+          priority,
+          dueDate,
+          createdAt: now.toISOString(),
+        };
+
+        setTasks((prev) => [t, ...prev]);
+      },
+      toggleTask: (id) => {
+        setTasks((prev) =>
+          prev.map((t) => (t.id === id ? { ...t, status: t.status === "open" ? "done" : "open" } : t))
+        );
+      },
+      removeTask: (id) => {
+        setTasks((prev) => prev.filter((t) => t.id !== id));
+      },
+      clearDone: () => {
+        setTasks((prev) => prev.filter((t) => t.status !== "done"));
+      },
     };
-    setTasks((prev) => [t, ...prev]);
-  };
-
-  const toggleDone: TaskContextValue["toggleDone"] = (id) => {
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
-  };
-
-  const removeTask: TaskContextValue["removeTask"] = (id) => {
-    setTasks((prev) => prev.filter((t) => t.id !== id));
-  };
-
-  const updateTask: TaskContextValue["updateTask"] = (id, patch) => {
-    setTasks((prev) => prev.map((t) => (t.id == id ? { ...t, ...patch } : t)));
-  };
-
-  const criticalTodayCount = useMemo(() => {
-    const t0 = todayISO();
-    return tasks.filter((t) => !t.done && t.priority === "critical" && t.dueDate === t0).length
   }, [tasks]);
-
-  const value = useMemo(
-    () => ({ tasks, addTask, toggleDone, removeTask, updateTask, criticalTodayCount }),
-    [tasks, criticalTodayCount]
-  );
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
 }
