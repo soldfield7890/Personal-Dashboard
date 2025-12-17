@@ -4,28 +4,26 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "lint": "next lint",
+    "guard": "bash scripts/guard.sh",
     "build": "npm run guard && next build",
     "start": "next start",
-    "lint": "next lint",
-    "guard": "sh -c 'git grep -nE \"^[[:space:]]*cat[[:space:]]+>[[:space:]]+|<<[[:space:]]*[\\x27\\x22]?EOF[\\x27\\x22]?|\\bEOF;\\b|@soldfield7890[[:space:]]+➜\" -- app && echo \"\\n❌ TERMINAL PASTE DETECTED — fix the file(s) above\" && exit 1 || echo \"✅ Guard passed\"'"
+    "check": "npm run guard && npm run lint && npm run build"
   },
   "dependencies": {
-    "csv-parse": "^6.1.0",
-    "googleapis": "^168.0.0",
     "next": "14.2.35",
-    "openai": "^4.77.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/node": "20.16.10",
-    "@types/react": "18.3.11",
-    "@types/react-dom": "18.3.0",
-    "autoprefixer": "10.4.20",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.35",
-    "postcss": "8.4.49",
-    "tailwindcss": "3.4.13",
-    "typescript": "5.6.3"
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "autoprefixer": "^10.4.20",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.35",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.6.3"
   }
 }

@@ -2,31 +2,25 @@
 
 import type { ReactNode } from "react";
 
-export function Card({
-  title,
-  subtitle,
-  right,
-  children,
-  className = "",
-}: {
-  title?: string;
+type CardProps = {
+  title: string;
   subtitle?: string;
   right?: ReactNode;
-  children?: ReactNode;
   className?: string;
-}) {
+  children?: ReactNode;
+};
+
+export function Card({ title, subtitle, right, className = "", children }: CardProps) {
   return (
-    <section className={`card ${className}`}>
-      {(title || subtitle || right) && (
-        <header className="card-header">
-          <div className="card-header-left">
-            {title && <div className="card-title">{title}</div>}
-            {subtitle && <div className="card-subtitle">{subtitle}</div>}
-          </div>
-          {right && <div className="card-header-right">{right}</div>}
-        </header>
-      )}
-      <div className="card-body">{children}</div>
+    <section className={`tile ${className}`}>
+      <div className="tileHeader">
+        <div>
+          <div className="tileKicker">{title}</div>
+          {subtitle ? <div className="tileTitle">{subtitle}</div> : null}
+        </div>
+        {right ? <div>{right}</div> : null}
+      </div>
+      {children}
     </section>
   );
 }
