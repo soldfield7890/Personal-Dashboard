@@ -4,11 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "lint": "next lint",
     "guard": "bash scripts/guard.sh",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "check": "tsc --noEmit -p tsconfig.json",
     "build": "npm run guard && next build",
+    "guard:full": "npm run guard && npm run typecheck && next build",
     "start": "next start",
-    "check": "npm run guard && npm run lint && npm run build"
+    "lint": "next lint",
+    "verify": "npm run guard:full && npm run lint"
   },
   "dependencies": {
     "next": "14.2.35",
@@ -19,11 +22,11 @@
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "^10.4.19",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.35",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.6.3"
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.4.5"
   }
 }

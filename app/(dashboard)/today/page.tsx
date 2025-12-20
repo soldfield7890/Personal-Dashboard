@@ -1,152 +1,316 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useTasks } from "@/app/components/state/TaskStore";
+import { Card } from "@/app/components/ui/Card";
+import { useTasks, type TaskPriority } from "@/app/components/state/TaskStore";
 
-function formatDay(d: Date) {
-  return d.toLocaleDateString(undefined, {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  });
+function formatDowMonDay(d: Date) {
+  return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
 }
 
-function formatGreetingHour(d: Date) {
-  const h = d.getHours();
+function greetingForHour(h: number) {
   if (h < 12) return "Good morning";
   if (h < 17) return "Good afternoon";
   return "Good evening";
 }
 
-export default function TodayPage() {
-  const { tasks } = useTasks();
+type MonthCell = { key: string; label: string; isToday?: boolean; isBlank?: boolean };
 
-  // Prevent SSR/client mismatch: compute time-based strings ONLY after mount
+function buildMonthCells(now: Date): MonthCell[] {
+  const y = now.getFullYear();
+  const m = now.getMonth();
+
+  const first = new Date(y, m, 1);
+  const last = new Date(y, m + 1, 0);
+
+  // Monday-first grid: Mon=0 ... Sun=6
+  const firstDow = (first.getDay() + 6) % 7;
+  const daysInMonth = last.getDate();
+
+  const cells: MonthCell[] = [];
+  for (let i = 0; i < firstDow; i++) cells.push({ key: `b${i}`, label: "", isBlank: true });
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    cells.push({
+      key: `d${day}`,
+      label: String(day),
+      isToday: day === now.getDate(),
+    });
+  }
+
+  while (cells.length % 7 !== 0) cells.push({ key: `t${cells.length}`, label: "", isBlank: true });
+  return cells.slice(0, 42);
+}
+
+function toYmd(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+export default function TodayPage() {
+  const { tasks, addTask } = useTasks();
+
+  // Prevent hydration mismatch
   const [now, setNow] = useState<Date | null>(null);
   useEffect(() => setNow(new Date()), []);
 
-  const greeting = useMemo(() => {
-    if (!now) return "Welcome";
-    return `${formatGreetingHour(now)}, Stephen`;
+  // Store model uses `done` boolean (no `status`)
+  const openTasks = useMemo(() => tasks.filter((t) => !t.done), [tasks]);
+
+  const todayYmd = useMemo(() => {
+    if (!now) return null;
+    return toYmd(now);
   }, [now]);
 
-  const dayLabel = useMemo(() => {
-    if (!now) return "—";
-    return formatDay(now);
-  }, [now]);
+  const criticalDueToday = useMemo(() => {
+    if (!todayYmd) return [];
+    return openTasks.filter((t) => t.priority === 1 && t.dueDate === todayYmd);
+  }, [openTasks, todayYmd]);
 
-  const criticalTodayCount = useMemo(() => {
-    // Keep logic simple for now; refine later
-    return tasks.filter((t) => t.status === "open" && t.priority === "critical").length;
-  }, [tasks]);
+  const rankedOpen = useMemo(() => {
+    return [...openTasks].sort((a, b) => {
+      const pa = a.priority ?? 9;
+      const pb = b.priority ?? 9;
+      if (pa !== pb) return pa - pb;
+
+      const da = a.dueDate ?? "9999-99-99";
+      const db = b.dueDate ?? "9999-99-99";
+      return da.localeCompare(db);
+    });
+  }, [openTasks]);
+
+  const topPriorities = rankedOpen.slice(0, 5);
+
+  const systemStatus = useMemo(() => {
+    if (criticalDueToday.length > 0) return "RED";
+    if (openTasks.length >= 8) return "YELLOW";
+    return "GREEN";
+  }, [criticalDueToday.length, openTasks.length]);
+
+  // Your CSS has `.dot` and `.bullet-red`, but not dot-red/yellow; keep dot base.
+  const dotClass = "dot";
+
+  const monthLabel = now ? now.toLocaleDateString(undefined, { month: "long", year: "numeric" }) : "—";
+  const monthCells = useMemo(() => (now ? buildMonthCells(now) : []), [now]);
+
+  const [quickText, setQuickText] = useState("");
+
+  function commitQuick(priority: TaskPriority) {
+    const v = quickText.trim();
+    if (!v) return;
+
+    // Do NOT pass 0. Due date should be a string (YYYY-MM-DD) or undefined.
+    addTask(v, priority);
+
+    setQuickText("");
+  }
 
   return (
     <div className="grid">
-      <section className="card">
-        <div className="card-title">PERSONAL COMMAND CENTER</div>
-        <div className="muted">Today • {dayLabel}</div>
-        <div className="headline">{greeting}</div>
-        <div className="muted">
-          {criticalTodayCount > 0
-            ? `${criticalTodayCount} critical item(s) due today`
-            : "No critical items due today"}
+      <Card
+        className={`tile-command ${criticalDueToday.length > 0 ? "tile-critical" : ""}`}
+        title="PERSONAL COMMAND CENTER"
+        subtitle={
+          now ? `Today • ${formatDowMonDay(now)} • ${greetingForHour(now.getHours())}, Stephen` : "Loading…"
+        }
+        right={
+          <div className="pill small">
+            <span className={dotClass} />
+            <span>System: {systemStatus}</span>
+          </div>
+        }
+      >
+        <div className="chipRow">
+          <span className={`badge ${criticalDueToday.length ? "badge-red" : ""}`}>
+            {criticalDueToday.length ? `${criticalDueToday.length} critical due today` : "No critical due today"}
+          </span>
+          <span className="badge">{openTasks.length} open</span>
+          <span className="badge">2 deep-work blocks</span>
+          <span className="badge">Market: watchlist ready</span>
         </div>
-      </section>
 
-      <section className="card">
-        <div className="card-title">NEXT 3 EVENTS</div>
-        <div className="list">
-          <div>2:00 PM — HST Call Review</div>
-          <div>3:00 PM — Exec Touchpoint</div>
-          <div>5:30 PM — Family Dinner</div>
+        <div className="headsUp">
+          <div className="headsUpKicker">HEADS UP</div>
+          {criticalDueToday.length ? (
+            <div>Clear critical items early — the cockpit will auto-expand around them.</div>
+          ) : (
+            <div>Keep it clean: capture fast, choose one focus lane, protect deep work.</div>
+          )}
         </div>
-      </section>
+      </Card>
 
-      <section className="card">
-        <div className="card-title">QUICK CAPTURE</div>
-        <div className="muted">Adds to To-Do and persists.</div>
-        <div className="row">
-          <button className="btn">Add</button>
-          <input className="input" placeholder="Add task or note..." />
-        </div>
-      </section>
-
-      <section className="card">
-        <div className="card-title">CALENDAR — TODAY &amp; Next Up</div>
-        <ul>
-          <li>Today: Exec check-in, HST follow-up, CGGC notes</li>
-          <li>Next up:, Deep work block, contract review, family event</li>
-        </ul>
-      </section>
-
-      <section className="card">
-        <div className="card-title">DAILY BRIEFING</div>
-        <ul>
-          <li>Weather: 41°F, clear, light NW wind</li>
-          <li>Time: Two strong deep-work windows</li>
-          <li>Risks: HST pressure, ECC backlog</li>
-          <li>Opportunities: CGGC planning, market pullback</li>
-        </ul>
-      </section>
-
-      <section className="card">
-        <div className="card-title">WEATHER &amp; SITUATIONAL AWARENESS</div>
-        <div className="muted">Leominster / Mason NH</div>
-        <ul>
-          <li>Today: 41°F high, 32°F low, clear</li>
-          <li>Wind: NW 8 mph (HuntOS check)</li>
-          <li>Next 5 days: Mostly clear, cooling</li>
-        </ul>
-      </section>
-
-      <section className="card">
-        <div className="card-title">TASKS / PROJECTS</div>
-        <div className="muted">Live tasks (from To-Do)</div>
-        {tasks.filter((t) => t.status === "open").length === 0 ? (
-          <div className="muted">No open tasks.</div>
-        ) : (
-          <div className="list">
-            {tasks
-              .filter((t) => t.status === "open")
-              .slice(0, 5)
-              .map((t) => (
-                <div key={t.id}>{t.title}</div>
-              ))}
-          </div>
-        )}
-      </section>
-
-      <section className="card">
-        <div className="card-title">MARKETS — WATCHLIST SNAPSHOT</div>
-        <div className="muted">Phase 1: sample • Phase 2: live quotes + scoring</div>
-        <div className="markets">
-          <div className="row-between">
-            <div>MSFT</div>
-            <div className="pos">+1.4%</div>
-          </div>
-          <div className="row-between">
-            <div>GOOG</div>
-            <div className="pos">+0.9%</div>
-          </div>
-          <div className="row-between">
-            <div>RTX</div>
-            <div className="neg">-0.6%</div>
-          </div>
-          <div className="row-between">
-            <div>DUK</div>
-            <div className="pos">+0.3%</div>
-          </div>
-        </div>
-      </section>
-
-      <section className="card">
-        <div className="card-title">AI COMMAND BAR</div>
-        <div className="muted">Phase 1: UI only • Phase 2: OpenAI route</div>
-        <textarea
-          className="textarea"
-          placeholder={`Ask SEO Life OS:\n- "What are my top 3 priorities?"\n- "Summarize what's next."\n- "Any risks today?"`}
+      <Card
+        className={`tile-actions ${criticalDueToday.length ? "tile-grow" : ""}`}
+        title="QUICK CAPTURE"
+        subtitle="Adds to To-Do and persists."
+        right={
+          <button className="btn btn-green" onClick={() => commitQuick(2)}>
+            Add
+          </button>
+        }
+      >
+        <input
+          className="input"
+          placeholder='Type and hit Enter… (try: "Send Steve spreadsheet")'
+          value={quickText}
+          onChange={(e) => setQuickText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") commitQuick(2);
+          }}
         />
-      </section>
+
+        <div className="qaGrid" style={{ marginTop: 10 }}>
+          <button className="qaBtn" onClick={() => commitQuick(1)}>
+            Add as CRITICAL
+          </button>
+          <button className="qaBtn" onClick={() => commitQuick(2)}>
+            Add as Normal
+          </button>
+        </div>
+      </Card>
+
+      <Card className="tile-focus" title="FOCUS LANE" subtitle="Top priorities (auto-ranked)">
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 6 }}>
+          {topPriorities.length === 0 ? (
+            <div className="muted">No open tasks yet. Quick-capture one thing and the OS will build around it.</div>
+          ) : (
+            topPriorities.map((t) => (
+              <div
+                key={t.id}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 12,
+                  padding: "10px 12px",
+                  borderRadius: 14,
+                  border: "1px solid rgba(255,255,255,.06)",
+                  background: "rgba(0,0,0,.10)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                  <span className={t.priority === 1 ? "bullet bullet-red" : "bullet"} />
+                  <div style={{ fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {t.title} {t.priority === 1 ? <span className="muted">• CRITICAL</span> : null}
+                  </div>
+                </div>
+                <div className="mutedRight">{t.dueDate ? t.dueDate : ""}</div>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div className="focusBlocks">
+          <div className="focusBlock">
+            <div className="focusBlockTitle">Deep Work</div>
+            <div className="muted">AM block + PM block (protect these like meetings)</div>
+          </div>
+          <div className="focusBlock">
+            <div className="focusBlockTitle">Admin</div>
+            <div className="muted">Batch comms + approvals + follow-ups</div>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="tile-month" title="MONTH" subtitle={monthLabel}>
+        <div className="monthGrid">
+          {monthCells.length === 0 ? (
+            <div className="muted">—</div>
+          ) : (
+            monthCells.map((c) => (
+              <div
+                key={c.key}
+                className={`dayPill ${c.isToday ? "today" : ""}`}
+                style={{ opacity: c.isBlank ? 0.25 : 1 }}
+              >
+                {c.label}
+              </div>
+            ))
+          )}
+        </div>
+      </Card>
+
+      <Card className="tile-calendar" title="CALENDAR" subtitle="Today & Next Up (Phase 1 stub)">
+        <div className="twoCol">
+          <div>
+            <div className="colTitle">Today</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 6 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                <span>2:00 PM — HST Call Review</span>
+                <span className="mutedRight">Hard</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                <span>3:00 PM — Exec Touchpoint</span>
+                <span className="mutedRight">Med</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                <span>5:30 PM — Family Dinner</span>
+                <span className="mutedRight">Good</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div className="colTitle">Next Up</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 6 }}>
+              <div>Deep work block</div>
+              <div>Contract review</div>
+              <div>Family event</div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="tile-markets" title="MARKETS" subtitle="Watchlist snapshot (Phase 1 stub)">
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 6 }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span>MSFT</span>
+            <span className="pos">+1.4%</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span>GOOG</span>
+            <span className="pos">+0.9%</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span>RTX</span>
+            <span className="neg">-0.6%</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span>DUK</span>
+            <span className="pos">+0.3%</span>
+          </div>
+        </div>
+
+        <div className="miniChart">Phase 2: live quotes + scoring + alerts</div>
+      </Card>
+
+      <Card className="tile-brief" title="DAILY BRIEFING" subtitle="Phase 1: static • Phase 2: AI-generated">
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 6 }}>
+          <div>Weather: 41°F, clear, light NW wind</div>
+          <div>Risks: HST pressure, ECC backlog</div>
+          <div>Opportunities: CGGC planning, market pullback</div>
+          <div className="muted">Next: AI generates 3 bullets + 1 recommendation.</div>
+        </div>
+      </Card>
+
+      <Card className="tile-weather" title="AI COMMAND BAR" subtitle="Phase 1: UI • Phase 2: OpenAI route">
+        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <input
+            className="input"
+            placeholder='Ask SEO Life OS… (ex: "What are my top 3 priorities?")'
+            value={""}
+            onChange={() => {}}
+            readOnly
+          />
+          <button className="btn" type="button" disabled>
+            Ask
+          </button>
+        </div>
+        <div className="muted" style={{ marginTop: 10 }}>
+          Phase 2: wire to an API route + OpenAI. This is a visual placeholder only.
+        </div>
+      </Card>
     </div>
   );
 }

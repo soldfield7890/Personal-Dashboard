@@ -1,26 +1,28 @@
 "use client";
 
-import type { ReactNode } from "react";
+import React from "react";
 
 type CardProps = {
-  title: string;
-  subtitle?: string;
-  right?: ReactNode;
   className?: string;
-  children?: ReactNode;
+  title?: string;
+  subtitle?: string;
+  right?: React.ReactNode;
+  children?: React.ReactNode;
 };
 
-export function Card({ title, subtitle, right, className = "", children }: CardProps) {
+export function Card({ className = "", title, subtitle, right, children }: CardProps) {
   return (
     <section className={`tile ${className}`}>
-      <div className="tileHeader">
-        <div>
-          <div className="tileKicker">{title}</div>
-          {subtitle ? <div className="tileTitle">{subtitle}</div> : null}
+      {(title || subtitle || right) && (
+        <div className="tileHeader">
+          <div className="tileTitleBlock">
+            {title ? <div className="tileTitle">{title}</div> : null}
+            {subtitle ? <div className="tileSubtitle">{subtitle}</div> : null}
+          </div>
+          {right ? <div>{right}</div> : null}
         </div>
-        {right ? <div>{right}</div> : null}
-      </div>
-      {children}
+      )}
+      <div className="tileBody">{children}</div>
     </section>
   );
 }

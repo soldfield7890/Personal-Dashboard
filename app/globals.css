@@ -6,10 +6,10 @@
   --bg0: #050814;
   --bg1: #070b18;
   --ink: #eaf0ff;
-  --muted: rgba(234, 240, 255, .68);
-  --hair: rgba(255, 255, 255, .10);
-  --hair2: rgba(255, 255, 255, .06);
-  --shadow: 0 30px 90px rgba(0, 0, 0, .55);
+  --muted: rgba(234, 240, 255, 0.68);
+  --hair: rgba(255, 255, 255, 0.10);
+  --hair2: rgba(255, 255, 255, 0.06);
+  --shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
   --radius: 18px;
   --radius2: 24px;
 
@@ -20,8 +20,8 @@
 html,
 body {
   height: 100%;
-  background: radial-gradient(1200px 800px at 30% 10%, rgba(120, 90, 255, .14), transparent 55%),
-    radial-gradient(900px 600px at 75% 70%, rgba(20, 255, 200, .10), transparent 55%),
+  background: radial-gradient(1200px 800px at 30% 10%, rgba(120, 90, 255, 0.14), transparent 55%),
+    radial-gradient(900px 600px at 75% 70%, rgba(20, 255, 200, 0.10), transparent 55%),
     linear-gradient(180deg, var(--bg0), var(--bg1));
   color: var(--ink);
 }
@@ -51,8 +51,7 @@ body {
   padding: 14px;
   border: 1px solid var(--hair);
   border-radius: var(--radius2);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
   box-shadow: var(--shadow);
 }
 
@@ -61,7 +60,7 @@ body {
   height: 56px;
   border-radius: 16px;
   border: 1px solid var(--hair);
-  background: rgba(255, 255, 255, .05);
+  background: rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,9 +76,9 @@ body {
 
 .brandKicker {
   font-size: 11px;
-  letter-spacing: .14em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(80, 240, 166, .85);
+  color: rgba(80, 240, 166, 0.85);
   font-weight: 700;
 }
 
@@ -108,23 +107,23 @@ body {
   padding: 12px 12px;
   border-radius: 14px;
   border: 1px solid var(--hair2);
-  background: rgba(255, 255, 255, .03);
-  color: rgba(234, 240, 255, .88);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(234, 240, 255, 0.88);
   font-size: 13px;
   text-align: left;
   cursor: pointer;
-  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
 }
 
 .navItem:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, .05);
+  background: rgba(255, 255, 255, 0.05);
   border-color: var(--hair);
 }
 
 .navItem.active {
-  background: linear-gradient(135deg, rgba(80, 240, 166, .18), rgba(90, 160, 255, .12));
-  border-color: rgba(80, 240, 166, .35);
+  background: linear-gradient(135deg, rgba(80, 240, 166, 0.18), rgba(90, 160, 255, 0.12));
+  border-color: rgba(80, 240, 166, 0.35);
 }
 
 .navIcon {
@@ -151,9 +150,9 @@ body {
 
 .topbarKicker {
   font-size: 12px;
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(234, 240, 255, .55);
+  color: rgba(234, 240, 255, 0.55);
 }
 
 .topbarTitle {
@@ -176,8 +175,8 @@ body {
   padding: 8px 12px;
   border-radius: 999px;
   border: 1px solid var(--hair);
-  background: rgba(255, 255, 255, .04);
-  color: rgba(234, 240, 255, .85);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(234, 240, 255, 0.85);
   font-size: 12px;
 }
 
@@ -190,8 +189,8 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: rgba(80, 240, 166, .9);
-  box-shadow: 0 0 0 6px rgba(80, 240, 166, .12);
+  background: rgba(80, 240, 166, 0.9);
+  box-shadow: 0 0 0 6px rgba(80, 240, 166, 0.12);
 }
 
 .grid {
@@ -206,8 +205,8 @@ body {
   border-radius: var(--radius2);
   padding: 14px;
   background:
-    radial-gradient(800px 420px at 30% 0%, rgba(255, 255, 255, .07), transparent 55%),
-    linear-gradient(135deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .03));
+    radial-gradient(800px 420px at 30% 0%, rgba(255, 255, 255, 0.07), transparent 55%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
   box-shadow: var(--shadow);
   overflow: hidden;
 }
@@ -216,8 +215,8 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, .06), transparent);
-  opacity: .18;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  opacity: 0.18;
   pointer-events: none;
 }
 
@@ -231,9 +230,9 @@ body {
 
 .tileKicker {
   font-size: 11px;
-  letter-spacing: .14em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(234, 240, 255, .55);
+  color: rgba(234, 240, 255, 0.55);
   font-weight: 700;
 }
 
@@ -241,7 +240,7 @@ body {
   font-size: 13px;
   font-weight: 700;
   margin-top: 3px;
-  color: rgba(234, 240, 255, .92);
+  color: rgba(234, 240, 255, 0.92);
 }
 
 .tile--span2 {
@@ -250,64 +249,64 @@ body {
 
 .tile-command {
   grid-column: span 4;
-  background: linear-gradient(135deg, rgba(150, 110, 255, .18), rgba(255, 255, 255, .03));
+  background: linear-gradient(135deg, rgba(150, 110, 255, 0.18), rgba(255, 255, 255, 0.03));
 }
 
 .tile-actions {
   grid-column: span 2;
-  background: linear-gradient(135deg, rgba(50, 220, 200, .14), rgba(255, 255, 255, .03));
+  background: linear-gradient(135deg, rgba(50, 220, 200, 0.14), rgba(255, 255, 255, 0.03));
 }
 
 .tile-month {
   grid-column: span 2;
-  background: linear-gradient(135deg, rgba(90, 160, 255, .14), rgba(255, 255, 255, .03));
+  background: linear-gradient(135deg, rgba(90, 160, 255, 0.14), rgba(255, 255, 255, 0.03));
 }
 
 .tile-focus {
   grid-column: span 4;
-  background: linear-gradient(135deg, rgba(255, 90, 120, .14), rgba(255, 255, 255, .03));
+  background: linear-gradient(135deg, rgba(255, 90, 120, 0.14), rgba(255, 255, 255, 0.03));
 }
 
 .tile-weather {
   grid-column: span 2;
-  background: linear-gradient(135deg, rgba(255, 170, 90, .12), rgba(255, 255, 255, .03));
+  background: linear-gradient(135deg, rgba(255, 170, 90, 0.12), rgba(255, 255, 255, 0.03));
 }
 
 .tile-brief {
   grid-column: span 4;
-  background: linear-gradient(135deg, rgba(90, 160, 255, .12), rgba(255, 255, 255, .03));
+  background: linear-gradient(135deg, rgba(90, 160, 255, 0.12), rgba(255, 255, 255, 0.03));
 }
 
 .tile-calendar {
   grid-column: span 4;
-  background: linear-gradient(135deg, rgba(80, 240, 166, .10), rgba(255, 255, 255, .03));
+  background: linear-gradient(135deg, rgba(80, 240, 166, 0.10), rgba(255, 255, 255, 0.03));
 }
 
 .tile-markets {
   grid-column: span 2;
-  background: linear-gradient(135deg, rgba(255, 140, 60, .10), rgba(255, 255, 255, .03));
+  background: linear-gradient(135deg, rgba(255, 140, 60, 0.10), rgba(255, 255, 255, 0.03));
 }
 
 .btn {
   padding: 9px 12px;
   border-radius: 12px;
   border: 1px solid var(--hair);
-  background: rgba(255, 255, 255, .06);
-  color: rgba(234, 240, 255, .92);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(234, 240, 255, 0.92);
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform .12s ease, background .12s ease;
+  transition: transform 0.12s ease, background 0.12s ease;
 }
 
 .btn:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, .09);
+  background: rgba(255, 255, 255, 0.09);
 }
 
 .btn-green {
-  border-color: rgba(80, 240, 166, .28);
-  background: rgba(80, 240, 166, .14);
+  border-color: rgba(80, 240, 166, 0.28);
+  background: rgba(80, 240, 166, 0.14);
 }
 
 .input {
@@ -315,13 +314,13 @@ body {
   padding: 11px 12px;
   border-radius: 12px;
   border: 1px solid var(--hair);
-  background: rgba(0, 0, 0, .18);
-  color: rgba(234, 240, 255, .92);
+  background: rgba(0, 0, 0, 0.18);
+  color: rgba(234, 240, 255, 0.92);
   outline: none;
 }
 
 .input::placeholder {
-  color: rgba(234, 240, 255, .38);
+  color: rgba(234, 240, 255, 0.38);
 }
 
 .chipRow {
@@ -335,27 +334,27 @@ body {
   padding: 6px 10px;
   border-radius: 999px;
   border: 1px solid var(--hair);
-  background: rgba(0, 0, 0, .12);
+  background: rgba(0, 0, 0, 0.12);
   font-size: 11px;
-  color: rgba(234, 240, 255, .84);
+  color: rgba(234, 240, 255, 0.84);
 }
 
 .badge {
   padding: 6px 10px;
   border-radius: 999px;
   border: 1px solid var(--hair);
-  background: rgba(0, 0, 0, .16);
+  background: rgba(0, 0, 0, 0.16);
   font-size: 11px;
-  color: rgba(234, 240, 255, .85);
+  color: rgba(234, 240, 255, 0.85);
 }
 
 .badge-red {
-  border-color: rgba(255, 90, 120, .35);
-  background: rgba(255, 90, 120, .12);
-  color: rgba(255, 210, 220, .95);
+  border-color: rgba(255, 90, 120, 0.35);
+  background: rgba(255, 90, 120, 0.12);
+  color: rgba(255, 210, 220, 0.95);
 }
 
-.list {
+.listReset {
   margin: 0;
   padding-left: 0;
   list-style: none;
@@ -368,14 +367,14 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(234, 240, 255, .55);
+  background: rgba(234, 240, 255, 0.55);
   display: inline-block;
   margin-right: 10px;
 }
 
 .bullet-red {
-  background: rgba(255, 90, 120, .9);
-  box-shadow: 0 0 0 6px rgba(255, 90, 120, .10);
+  background: rgba(255, 90, 120, 0.9);
+  box-shadow: 0 0 0 6px rgba(255, 90, 120, 0.10);
 }
 
 .muted {
@@ -401,8 +400,8 @@ body {
   padding: 10px 10px;
   border-radius: 12px;
   border: 1px solid var(--hair);
-  background: rgba(0, 0, 0, .10);
-  color: rgba(234, 240, 255, .90);
+  background: rgba(0, 0, 0, 0.10);
+  color: rgba(234, 240, 255, 0.90);
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -427,14 +426,14 @@ body {
   padding: 8px 0;
   border-radius: 12px;
   border: 1px solid var(--hair2);
-  background: rgba(0, 0, 0, .12);
+  background: rgba(0, 0, 0, 0.12);
   font-size: 12px;
-  color: rgba(234, 240, 255, .88);
+  color: rgba(234, 240, 255, 0.88);
 }
 
 .dayPill.today {
-  border-color: rgba(80, 240, 166, .35);
-  background: rgba(80, 240, 166, .14);
+  border-color: rgba(80, 240, 166, 0.35);
+  background: rgba(80, 240, 166, 0.14);
 }
 
 .weatherTop {
@@ -452,7 +451,7 @@ body {
 
 .weatherNext {
   max-width: 240px;
-  color: rgba(234, 240, 255, .86);
+  color: rgba(234, 240, 255, 0.86);
   font-size: 12px;
 }
 
@@ -472,25 +471,25 @@ body {
 
 .barLabel {
   font-size: 11px;
-  color: rgba(234, 240, 255, .65);
+  color: rgba(234, 240, 255, 0.65);
 }
 
 .barTrack {
   height: 6px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, .10);
+  background: rgba(255, 255, 255, 0.10);
   overflow: hidden;
 }
 
 .barFill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(80, 240, 166, .9), rgba(150, 110, 255, .85));
+  background: linear-gradient(90deg, rgba(80, 240, 166, 0.9), rgba(150, 110, 255, 0.85));
 }
 
 .barTemp {
   font-size: 11px;
-  color: rgba(234, 240, 255, .75);
+  color: rgba(234, 240, 255, 0.75);
   text-align: right;
 }
 
@@ -498,17 +497,17 @@ body {
   margin-top: 12px;
   padding: 10px 12px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 200, 140, .20);
-  background: rgba(0, 0, 0, .14);
-  color: rgba(234, 240, 255, .86);
+  border: 1px solid rgba(255, 200, 140, 0.20);
+  background: rgba(0, 0, 0, 0.14);
+  color: rgba(234, 240, 255, 0.86);
   font-size: 12px;
 }
 
 .headsUpKicker {
   font-size: 11px;
-  letter-spacing: .14em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 200, 140, .85);
+  color: rgba(255, 200, 140, 0.85);
   font-weight: 800;
   margin-bottom: 4px;
 }
@@ -526,7 +525,7 @@ body {
   padding: 10px 12px;
   border-radius: 14px;
   border: 1px solid var(--hair2);
-  background: rgba(0, 0, 0, .12);
+  background: rgba(0, 0, 0, 0.12);
   align-items: center;
 }
 
@@ -546,7 +545,7 @@ body {
 .colTitle {
   font-size: 12px;
   font-weight: 800;
-  color: rgba(234, 240, 255, .90);
+  color: rgba(234, 240, 255, 0.90);
   margin-bottom: 8px;
 }
 
@@ -564,12 +563,12 @@ body {
 }
 
 .neg {
-  color: rgba(255, 110, 135, .95);
+  color: rgba(255, 110, 135, 0.95);
   font-weight: 800;
 }
 
 .pos {
-  color: rgba(80, 240, 166, .95);
+  color: rgba(80, 240, 166, 0.95);
   font-weight: 800;
 }
 
@@ -577,10 +576,10 @@ body {
   margin-top: 12px;
   padding: 14px;
   border-radius: 14px;
-  border: 1px dashed rgba(255, 255, 255, .18);
-  background: rgba(0, 0, 0, .10);
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.10);
   font-size: 12px;
-  color: rgba(234, 240, 255, .60);
+  color: rgba(234, 240, 255, 0.60);
   text-align: center;
 }
 
@@ -593,35 +592,27 @@ body {
   .grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
-
   .tile-command {
     grid-column: span 4;
   }
-
   .tile-actions {
     grid-column: span 2;
   }
-
   .tile-month {
     grid-column: span 2;
   }
-
   .tile-focus {
     grid-column: span 4;
   }
-
   .tile-weather {
     grid-column: span 4;
   }
-
   .tile-brief {
     grid-column: span 4;
   }
-
   .tile-calendar {
     grid-column: span 4;
   }
-
   .tile-markets {
     grid-column: span 4;
   }
@@ -631,25 +622,23 @@ body {
   .app-shell {
     flex-direction: column;
   }
-
   .sidebar {
     width: auto;
     flex: unset;
   }
-
   .grid {
     grid-template-columns: 1fr;
   }
-
   .tile,
   .tile--span2 {
     grid-column: span 1 !important;
   }
-
   .twoCol {
     grid-template-columns: 1fr;
   }
-}/* Finance page */
+}
+
+/* Finance page */
 .grid-finance {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -676,9 +665,9 @@ body {
 }
 
 .kicker {
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
   font-size: 11px;
-  opacity: .75;
+  opacity: 0.75;
 }
 
 .headline {
@@ -687,15 +676,16 @@ body {
 }
 
 .subhead {
-  opacity: .8;
+  opacity: 0.8;
   max-width: 72ch;
 }
 
-.pill {
+/* renamed to avoid collision with the global .pill used in topbar */
+.pill2 {
   padding: 10px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, .12);
-  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
   font-size: 12px;
 }
 
@@ -705,37 +695,37 @@ body {
 
 .tile-title {
   font-weight: 600;
-  opacity: .9;
+  opacity: 0.9;
   margin-bottom: 10px;
 }
 
 .callout {
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, .12);
-  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
   padding: 14px;
 }
 
 .callout-title {
   font-weight: 700;
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   font-size: 12px;
 }
 
 .callout-body {
-  opacity: .85;
+  opacity: 0.85;
   margin-top: 8px;
   line-height: 1.35;
 }
 
 .callout-error {
-  border-color: rgba(255, 80, 80, .35);
-  background: rgba(255, 80, 80, .06);
+  border-color: rgba(255, 80, 80, 0.35);
+  background: rgba(255, 80, 80, 0.06);
 }
 
 .callout-ok {
-  border-color: rgba(80, 255, 180, .25);
-  background: rgba(80, 255, 180, .06);
+  border-color: rgba(80, 255, 180, 0.25);
+  background: rgba(80, 255, 180, 0.06);
 }
 
 .stack {
@@ -758,14 +748,14 @@ body {
 
 .metric {
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, .10);
-  background: rgba(0, 0, 0, .18);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.18);
   padding: 14px;
 }
 
 .metric-label {
   font-size: 12px;
-  opacity: .75;
+  opacity: 0.75;
 }
 
 .metric-value {
@@ -776,23 +766,23 @@ body {
 
 .metric-sub {
   font-size: 11px;
-  opacity: .7;
+  opacity: 0.7;
   margin-top: 6px;
 }
 
 .tile-divider {
   height: 1px;
-  background: rgba(255, 255, 255, .10);
+  background: rgba(255, 255, 255, 0.10);
   margin: 4px 0;
 }
 
 .list {
   margin: 10px 0 0 18px;
-  opacity: .85;
+  opacity: 0.85;
 }
 
-.muted {
-  opacity: .7;
+.muted2 {
+  opacity: 0.7;
 }
 
 .mono {
@@ -800,42 +790,49 @@ body {
 }
 
 /* --- LifeOS Enhancements (Phase 1) --- */
-.sidebar-toggle{
-  display:none;
-  border:1px solid rgba(255,255,255,0.15);
-  border-radius:12px;
-  padding:8px 10px;
-  font-size:14px;
-  line-height:1;
+.sidebar-toggle {
+  display: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-size: 14px;
+  line-height: 1;
 }
 
-@media (max-width: 900px){
-  .sidebar-toggle{ display:inline-flex; align-items:center; justify-content:center; }
-  .sidebar{
-    position:fixed;
-    top:0; left:0;
-    height:100vh;
-    transform:translateX(-105%);
-    transition:transform 200ms ease;
-    z-index:50;
+@media (max-width: 900px) {
+  .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
-  .sidebar[data-open="true"]{
-    transform:translateX(0);
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transform: translateX(-105%);
+    transition: transform 200ms ease;
+    z-index: 50;
   }
-  .main{
-    margin-left:0 !important;
+  .sidebar[data-open="true"] {
+    transform: translateX(0);
+  }
+  .main {
+    margin-left: 0 !important;
   }
 }
 
 /* tile grow + critical highlight */
-.tile-grow{
+.tile-grow {
   grid-column: span 1;
 }
-@media (min-width: 1024px){
-  .tile-grow{
+
+@media (min-width: 1024px) {
+  .tile-grow {
     grid-column: span 2;
   }
 }
-.tile-critical{
-  box-shadow: 0 0 0 1px rgba(16,185,129,0.35), 0 0 40px rgba(16,185,129,0.08);
+
+.tile-critical {
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.35), 0 0 40px rgba(16, 185, 129, 0.08);
 }

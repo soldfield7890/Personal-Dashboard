@@ -1,70 +1,89 @@
-// app/components/Sidebar.tsx
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Today", icon: "☀️" },
-  { href: "/finance", label: "Finance / Stocks", icon: "📈" },
-  { href: "/calendar", label: "Calendar", icon: "📅" },
-  { href: "/weather", label: "Weather", icon: "🌤️" },
+  { href: "/today", label: "Today", icon: "☀️" },
+  { href: "/finance", label: "Finance", icon: "📈" },
   { href: "/todo", label: "To-Do", icon: "✅" },
+  { href: "/journal", label: "Journal", icon: "📝" },
   { href: "/auto", label: "Auto", icon: "🚙" },
   { href: "/garden", label: "Garden", icon: "🌱" },
-  { href: "/workshop", label: "Woodworking & Workshop", icon: "🪚" },
-  { href: "/journal", label: "Journal", icon: "📝" },
+  { href: "/workshop", label: "Workshop", icon: "🪚" },
 ];
+
+function prettyDate() {
+  return new Date().toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+}
 
 export default function Sidebar() {
   const pathname = usePathname();
 
+  const activeHref = useMemo(() => {
+    // normalize "/" -> "/today" if your app sometimes lands on "/"
+    if (pathname === "/") return "/today";
+    return pathname;
+  }, [pathname]);
+
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo-card">
-        <div className="sidebar-logo-row">
-          <div className="sidebar-logo-circle">
+    <aside className="sb">
+      <div className="sbTop">
+        <div className="sbBrand">
+          <div className="sbLogo">
             <Image
               src="/oldfield-logo.png"
               alt="Oldfield family logo"
               fill
-              sizes="48px"
+              sizes="44px"
               style={{ objectFit: "contain" }}
+              priority
             />
           </div>
-          <div className="sidebar-logo-text">
-            <div className="sidebar-logo-title">SEO Command Center</div>
-            <div className="sidebar-logo-subtitle">Stephen&apos;s Personal OS</div>
-            <div className="sidebar-logo-meta">Today • {new Date().toLocaleDateString("en-US", {
-              weekday: "short",
-              month: "short",
-              day: "numeric",
-            })}</div>
+
+          <div className="sbBrandText">
+            <div className="sbTitle">SEO Life OS</div>
+            <div className="sbSub">TodayFinanceTo-Do</div>
+            <div className="sbMeta">{prettyDate()}</div>
           </div>
         </div>
       </div>
 
-      <nav className="sidebar-nav">
+      <nav className="sbNav" aria-label="Primary">
         {NAV_ITEMS.map((item) => {
           const active =
-            item.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(item.href);
+            item.href === "/today"
+              ? activeHref === "/today" || activeHref.startsWith("/today")
+              : activeHref.startsWith(item.href);
+
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={
-                "sidebar-nav-item" + (active ? " sidebar-nav-item--active" : "")
-              }
+              className={"sbItem" + (active ? " sbItem--active" : "")}
             >
-              <span className="sidebar-nav-icon">{item.icon}</span>
-              <span className="sidebar-nav-label">{item.label}</span>
+              <span className="sbIcon" aria-hidden="true">
+                {item.icon}
+              </span>
+              <span className="sbLabel">{item.label}</span>
+              {active ? <span className="sbPip" aria-hidden="true" /> : null}
             </Link>
           );
         })}
       </nav>
+
+      <div className="sbBottom">
+        <div className="sbStatus">
+          <span className="sbDot" />
+          <span>System: GREEN</span>
+        </div>
+      </div>
     </aside>
   );
 }
