@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
-import { TaskProvider } from "@/app/components/state/TaskStore";
+import { TaskProvider } from "@/app/state/TaskStore";
 
 const NAV = [
   { href: "/today", label: "Today" },
