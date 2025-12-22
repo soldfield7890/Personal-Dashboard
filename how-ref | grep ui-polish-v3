@@ -1,0 +1,29 @@
+* [33m126069e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;33mtag: [m[1;33mui-polish-v3[m[33m, [m[1;33mtag: [m[1;33mbaseline-ui-v2[m[33m, [m[1;31morigin/ui-polish-v3[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mui-polish-v3[m[33m)[m Fix package.json JSON error + finalize verify/ci scripts
+* [33m42c7276[m ui-baseline-v1: stable build + consistent layout
+* [33mb9ae2a2[m UI shell/rail density pass (Run 1)
+* [33m5939585[m Stabilize foundation: Tailwind CJS + Phase2 stub routes + cockpit language
+* [33mee3528d[m Fix hydration + stabilize tasks + guardrails
+* [33m24cef52[m chore: add guard + pre-commit paste protection
+* [33mb3bc84e[m chore: archive legacy _old_todo route to unblock build
+* [33md312454[m Fix dashboard layout: remove stray heredoc line
+* [33m251bbdc[m Phase 1: todo + persistence + quick capture + finance csv + mobile polish
+* [33m3f0a3b5[m chore: dependencies, layout polish, and add logo asset
+* [33m4f9b86a[m Dashboard layout: add consistent content padding
+* [33m8a3ac56[m Finance: complete dashboard UI scaffold
+* [33mf7e33ac[m Finance: initial dashboard layout (UI only)
+* [33m5c48fda[m Today: complete dashboard with tasks, markets, AI bar
+* [33m2c893b6[m Today: restore second row dashboard cards
+* [33m397da92[m Restore Today top row cards
+* [33m103fa98[m chore: stabilize UI component structure
+* [33mf8ac817[m Fix Today page: remove shell heredoc, clean client component
+* [33m34119b4[m Extract Card component and reuse in Today page
+* [33mdbb8274[m Extract Card component and polish Today layout
+* [33m137f462[m Extract Card component and polish Today layout
+* [33mcdf0f07[m Split dashboard into route-based shell with Today restored
+* [33m12f37ad[m Update postcss.config.mjs
+* [33m2119945[m Update dependencies to specific versions
+* [33m9af58f4[m Delete app/globals.css.
+* [33m302969b[m Add global CSS styles with Tailwind setup
+* [33m02b55d4[m Add DashboardPage with Card component
+* [33m621fc7f[m Add RootLayout component with metadata for dashboard
+* [33mc7f66a9[m Add global styles with Tailwind CSS
